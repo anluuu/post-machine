@@ -1,0 +1,64 @@
+# ─── Model ────────────────────────────────────────────────────────────────────
+model:
+  name: "google/gemma-4-e4b"
+  base_url: "http://localhost:1234/v1"
+  temperature: 0.75
+  max_tokens: 4096
+
+# ─── Research ─────────────────────────────────────────────────────────────────
+research:
+  queries:
+    - "AI engineering trends 2026"
+    - "LLM production deployment best practices 2026"
+    - "agentic AI frameworks Python 2026"
+    - "cloud run GCP cost optimization 2026"
+    - "TypeScript AI stack 2026"
+    - "RAG retrieval augmented generation best practices"
+    - "vector databases production 2026"
+    - "MCP model context protocol updates 2026"
+    - "software engineering leadership AI transformation"
+    - "developer experience platform engineering 2026"
+    - "Kubernetes cloud native patterns 2026"
+    - "open source LLM deployment on-premise"
+  max_results_per_query: 5
+  region: "wt-wt"
+  timelimit: "w"   # d=day, w=week, m=month, y=year
+
+# ─── Post style ───────────────────────────────────────────────────────────────
+post:
+  min_words: 150
+  max_words: 350
+  tone: "direct, honest, technical, calm"
+  style: |
+    - Short sentences. No fluff.
+    - Start with one punchy insight or data point, not a question.
+    - Use numbered lists or bold headers for structure when listing items.
+    - End with a concrete personal takeaway, not a call-to-action cliché.
+    - Include 2–4 relevant hashtags on the last line.
+    - Never use: "passionate", "excited", "game-changer", "innovative", "thrilled".
+    - Write like a senior engineer sharing a real observation, not a marketer.
+  output_format: "md"
+
+# ─── Quality gate ─────────────────────────────────────────────────────────────
+quality:
+  threshold: 7       # score 1–10; below this triggers refinement
+  max_retries: 3     # max refinement loops before accepting best version
+
+# ─── Paths ────────────────────────────────────────────────────────────────────
+paths:
+  persona_file: "persona.md"
+  output_dir: "."
+
+# ─── Loop mode ────────────────────────────────────────────────────────────────
+loop:
+  interval_seconds: 3600   # 1 hour
+
+# ─── Hooks (shell commands; null = disabled) ──────────────────────────────────
+# post content is passed via stdin for post_write_post and post_save_post
+hooks:
+  pre_research: null
+  post_research: null
+  pre_write_post: null
+  post_write_post: null
+  pre_save_post: null
+  post_save_post: null

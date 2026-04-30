@@ -1,0 +1,26 @@
+# Secrets — never commit
+.env
+persona.md
+.persona_cache.json
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+
+# Node / UI
+ui/node_modules/
+ui/dist/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Claude Code internal
+.claude/

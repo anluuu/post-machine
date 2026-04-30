@@ -1,0 +1,34 @@
+# hostPath PV — points to your local posts/ directory on the node.
+# On Docker Desktop (macOS/Windows) set path to the absolute path of this repo root.
+# On Linux set it to the actual host path (or use a real StorageClass instead).
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: posts-data-pv
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  hostPath:
+    # UPDATE THIS to your absolute path if it differs
+    path: /Users/wagnerjosedasilva/Documents/git/examples/posts
+    type: Directory
+  claimRef:
+    namespace: posts-agent
+    name: posts-data-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: posts-data-pvc
+  namespace: posts-agent
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: ""
+  volumeName: posts-data-pv

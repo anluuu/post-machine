@@ -1,0 +1,56 @@
+# Langfuse Helm values for local development.
+# Install: helm install langfuse langfuse/langfuse -n langfuse --create-namespace -f k8s/langfuse-values.yaml
+#
+# CHANGE the passwords before any non-local deployment.
+
+langfuse:
+  salt:
+    value: "local-dev-salt-change-in-prod-32c"
+  nextauth:
+    secret:
+      value: "local-dev-nextauth-secret-change"
+
+  # Pre-seed org/project/keys so the API deployment works without manual UI setup
+  additionalEnv:
+    - name: NEXTAUTH_URL
+      value: "http://localhost:30100"
+    - name: LANGFUSE_INIT_ORG_ID
+      value: "posts-agent-org"
+    - name: LANGFUSE_INIT_ORG_NAME
+      value: "Posts Agent"
+    - name: LANGFUSE_INIT_PROJECT_ID
+      value: "posts-agent-project"
+    - name: LANGFUSE_INIT_PROJECT_NAME
+      value: "Posts Agent"
+    - name: LANGFUSE_INIT_PROJECT_PUBLIC_KEY
+      value: "pk-lf-local-posts-agent"
+    - name: LANGFUSE_INIT_PROJECT_SECRET_KEY
+      value: "sk-lf-local-posts-agent"
+    - name: LANGFUSE_INIT_USER_EMAIL
+      value: "admin@local.dev"
+    - name: LANGFUSE_INIT_USER_PASSWORD
+      value: "changeme"
+    - name: LANGFUSE_INIT_USER_NAME
+      value: "Admin"
+
+service:
+  type: NodePort
+  nodePort: 30100
+
+postgresql:
+  auth:
+    password: "langfuse-pg-local"
+
+clickhouse:
+  auth:
+    password: "langfuse-ch-local"
+  resourcesPreset: small
+
+redis:
+  auth:
+    password: "langfuse-redis-local"
+
+s3:
+  auth:
+    rootUser: "langfuse"
+    rootPassword: "langfuse-s3-local"

@@ -1,0 +1,49 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0c0c0c;
+  --bg-panel: #111111;
+  --bg-hover: #181818;
+  --bg-selected: #0f2010;
+  --border: #1e1e1e;
+  --border-bright: #2e2e2e;
+  --text: #b8b8b8;
+  --text-dim: #555;
+  --text-bright: #e2e2e2;
+  --accent: #4ade80;
+  --accent-dim: #166534;
+  --danger: #f87171;
+  --font: "JetBrains Mono", "Fira Code", monospace;
+  --sidebar-w: 280px;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+button {
+  font-family: var(--font);
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}

@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: posts-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: posts-api:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: POSTS_DIR
+              value: /data
+            # LM Studio runs on the host — use host.docker.internal on Docker Desktop
+            # or change to your node IP on Linux / minikube
+            - name: LM_STUDIO_URL
+              value: "http://host.docker.internal:1234/v1"
+            - name: LANGFUSE_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-api
+                  key: public-key
+            - name: LANGFUSE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-api
+                  key: secret-key
+            - name: LANGFUSE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-api
+                  key: host
+          volumeMounts:
+            - name: posts-data
+              mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /api/posts
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: posts-data
+          persistentVolumeClaim:
+            claimName: posts-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: posts-agent
+spec:
+  selector:
+    app: api
+  ports:
+    - port: 8000
+      targetPort: 8000

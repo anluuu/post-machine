@@ -1,0 +1,43 @@
+[tools]
+node = "22"
+python = "3.13"
+
+# ─── Local dev ────────────────────────────────────────────────────────────────
+
+[tasks.dev]
+description = "Start API + UI for local development"
+run = """
+trap 'kill $(jobs -p) 2>/dev/null' INT TERM EXIT
+
+uv run uvicorn agent.api:app --reload --port 8000 &
+(cd ui && npm run dev) &
+
+wait
+"""
+
+# ─── Kubernetes ───────────────────────────────────────────────────────────────
+
+[tasks.build]
+description = "Build API and UI Docker images"
+run = "make build"
+
+[tasks."deploy:langfuse"]
+description = "Install/upgrade Langfuse via Helm"
+run = "make deploy-langfuse"
+
+[tasks."deploy:app"]
+description = "Apply API + UI k8s manifests"
+depends = ["build"]
+run = "make deploy"
+
+[tasks.deploy]
+description = "Full k8s deploy: build → langfuse → app"
+depends = ["build", "deploy:langfuse", "deploy:app"]
+
+[tasks.logs]
+description = "Stream API logs"
+run = "make logs-api"
+
+[tasks.clean]
+description = "Remove k8s deployments"
+run = "make clean"
