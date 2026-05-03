@@ -1,7 +1,11 @@
 # Secrets — never commit
 .env
+.env.example
 persona.md
 .persona_cache.json
+
+# Generated posts (YYYY-MM-DD-slug.md)
+20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md
 
 # Python
 .venv/
