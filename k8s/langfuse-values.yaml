@@ -7,13 +7,12 @@ langfuse:
   salt:
     value: "local-dev-salt-change-in-prod-32c"
   nextauth:
+    url: "http://localhost:30100"
     secret:
       value: "local-dev-nextauth-secret-change"
 
   # Pre-seed org/project/keys so the API deployment works without manual UI setup
   additionalEnv:
-    - name: NEXTAUTH_URL
-      value: "http://localhost:30100"
     - name: LANGFUSE_INIT_ORG_ID
       value: "posts-agent-org"
     - name: LANGFUSE_INIT_ORG_NAME
