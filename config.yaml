@@ -63,4 +63,4 @@ hooks:
   pre_write_post: null
   post_write_post: null
   pre_save_post: null
-  post_save_post: null
+  post_save_post: "python3 /data/notify_telegram.py"
