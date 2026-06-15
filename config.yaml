@@ -1,4 +1,6 @@
 # ─── Model ────────────────────────────────────────────────────────────────────
+# name: troca pelo id do modelo carregado no LM Studio/Ollama (testando turboquant etc).
+# base_url: localhost p/ dev; na VPS sobrescreve com env LM_STUDIO_URL=http://<ip-tailnet-PC>:1234/v1
 model:
   name: "google/gemma-4-e4b"
   base_url: "http://localhost:1234/v1"

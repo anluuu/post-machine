@@ -1,0 +1,37 @@
+# post-machine — API (FastAPI) + UI (nginx) for Dokploy.
+# UI nginx proxies /api -> api:8000 and gates everything behind HTTP basic auth.
+# Domain + HTTPS are managed by Dokploy/Traefik (domain points at the `ui` service, port 80).
+
+networks:
+  dokploy-network:
+    external: true
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTS_DIR: /data
+      # LLM local no PC via Tailscale (override de config.model.base_url)
+      LM_STUDIO_URL: http://100.84.7.116:1234/v1
+    volumes:
+      # config.yaml + persona.md + posts gerados vivem aqui (fora do git)
+      - /opt/post-machine-data:/data
+    networks:
+      - default
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    volumes:
+      # creds basic auth (fora do git)
+      - /opt/post-machine-data/.htpasswd:/etc/nginx/.htpasswd:ro
+    networks:
+      - default
+      - dokploy-network
+    restart: unless-stopped
