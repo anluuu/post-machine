@@ -2,7 +2,7 @@
 PostWriter node.
 
 Synthesises persona summary + research brief into a LinkedIn post
-matching Wagner's established voice and format conventions.
+matching the engineer's established voice and format conventions.
 """
 
 from __future__ import annotations
@@ -19,7 +19,8 @@ from agent.state import PostState
 console = Console()
 
 _WRITER_PROMPT = """\
-You are writing a LinkedIn post for a software engineer named Wagner.
+You are writing a LinkedIn post for a software engineer.
+Match the voice, expertise, and style described in the persona summary below.
 
 PERSONA SUMMARY (writing style, voice, expertise):
 {persona_summary}
